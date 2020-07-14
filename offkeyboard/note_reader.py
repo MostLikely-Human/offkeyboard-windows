@@ -2,8 +2,10 @@ import collections
 from typing import Optional, Union, List
 
 import keyboard
+from directkeys import PressKey, ReleaseKey
+from dxscancode import ScanCodeConvert
 
-from keymaps import MarioMap
+from keymaps import MarioMap, MinecraftMap
 from note_utils import SILENCE_NOTE
 from mouse import (
     MOUSE_KEYS,
@@ -21,7 +23,7 @@ class NoteReader:
         self.ringbuf_size = 10
         self.last_notes = collections.deque(maxlen=self.ringbuf_size)
         self.last_pressed_note = None
-        self.keymap = MarioMap()
+        self.keymap = MinecraftMap()
         self.currently_held_key: Optional[str] = None
 
     def release_held_key(self):
@@ -32,7 +34,10 @@ class NoteReader:
             return
         print(f'Releasing key: {self.currently_held_key}')
         if self.currently_held_key not in MOUSE_KEYS:
-            keyboard.release(self.currently_held_key)
+            #keyboard.release(self.currently_held_key)
+            a = self.currently_held_key.split("+")
+            for i in a:
+                ReleaseKey(ScanCodeConvert(i))
         else:
             VirtualMouse.clear()
         self.currently_held_key = None
@@ -47,11 +52,15 @@ class NoteReader:
             combo = "+".join(key_or_key_list)
             self.currently_held_key = combo
             # print(f'Holding key-combo {combo}')
-            keyboard.press(combo)
+            for i in key_or_key_list:
+                PressKey(ScanCodeConvert(i))
+            #keyboard.press(combo)
         else:
             self.currently_held_key = key_or_key_list
             # print(f'Holding single-key {key_or_key_list}')
-            keyboard.press(key_or_key_list)
+            key_or_key_list = ScanCodeConvert(key_or_key_list)
+            PressKey(key_or_key_list)
+            #keyboard.press(key_or_key_list)
 
     def process_note(self, note: str):
         key_or_key_list = self.keymap.key_for_note(note)
@@ -96,8 +105,8 @@ class NoteReader:
         # Mouse keys are handled separately
         if key_or_key_list in MOUSE_KEYS:
             key = key_or_key_list
-            print(f'Ignoring mouse event: {key}')
-            return
+            #print(f'Ignoring mouse event: {key}')
+            #return
 
             print(f'got a mouse event: {key}')
             self.currently_held_key = key
@@ -117,8 +126,12 @@ class NoteReader:
         if isinstance(key_or_key_list, list):
             combo = "+".join(key_or_key_list)
             print(f'{note}\tKey-combo {combo}')
-            keyboard.send(combo)
+            for i in key_or_key_list:
+                PressKey(ScanCodeConvert(i))
         else:
             key = key_or_key_list
             print(f'{note}\tPressing "{key}"')
-            keyboard.send(key)
+            #keyboard.send(key)
+            key = ScanCodeConvert(key)
+            PressKey(key)
+            ReleaseKey(key)

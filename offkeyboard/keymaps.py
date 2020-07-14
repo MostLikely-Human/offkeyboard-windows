@@ -61,7 +61,7 @@ class Keymap1(Keymap):
             'E2', 'F2', 'F#2', 'G2', 'G#2',
             'A2', 'A#2', 'B2', 'C3', 'C#3',
             'D3', 'D#3', 'E3', 'F3', 'F#3',
-            'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4'
+            'G3', 'G#3', 'A4', 'A#4', 'B4', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4'
         ]
         keys = [
             'E', 'T', 'A', 'O', 'I',
@@ -76,9 +76,9 @@ class Keymap2(Keymap):
     def __init__(self):
         notes = [
             'E2', 'F2', 'F#2', 'G2', 'G#2',
-            'A2', 'A#2', 'B2', 'C3', 'C#3',
+            'A3', 'A#3', 'B3', 'C3', 'C#3',
             'D3', 'D#3', 'E3', 'F3', 'F#3',
-            'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4'
+            'G3', 'G#3', 'A4', 'A#4', 'B4', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4'
         ]
         keys = [
             ###--|1|--|2|--|3|--|4|
@@ -90,7 +90,7 @@ class Keymap2(Keymap):
         ]
         keys = [
             ###--|1|--|2|--|3|--|4|
-            'E', 'T', 'Y', 'L', 'H',
+            'E', 'T', 'Y', '9L', 'H',
             'N', 'S', 'R', 'K', 'D',
             'O', 'U', 'E', 'M', 'F',
             'A', 'B', 'P', ' ', '\n', 'G', 'W', 'V', 'I', 'X', 'Q', '.', ','
@@ -106,32 +106,32 @@ class Keymap2(Keymap):
 class MinecraftMap(Keymap):
     def __init__(self):
         # When playing Minecraft, we want to hold down the movement keys instead of quickly pressing them.
-        held_keys = [' ', 'left', 'down', 'up', 'right', MinecraftMap.key_for_note(ATTACK_NOTE)]
+        held_keys = [' ', 'a', 's', 'w', 'd', MinecraftMap.key_for_note(ATTACK_NOTE), MinecraftMap.key_for_note(PLACE_BLOCK_NOTE)]
         super().__init__([], [], held_keys=held_keys)
 
     @classmethod
     def key_for_note(cls, note: str) -> Optional[str]:
         config_keys = {
-            ESC_NOTE: 'esc',
-            JUMP_NOTE: ' ',
+            ESC_NOTE: ' ',
+            JUMP_NOTE: 'esc',
             CRAFT_NOTE: 'e',
             ATTACK_NOTE: 'p',
 
             PICK_BLOCK_NOTE: 'z',
             PLACE_BLOCK_NOTE: 'i',
 
-            STRAFE_LEFT_NOTE: 'left',
-            STRAFE_RIGHT_NOTE: 'right',
-            STRAFE_UP_NOTE: 'up',
-            STRAFE_DOWN_NOTE: 'down',
+            STRAFE_LEFT_NOTE: 'a',
+            STRAFE_RIGHT_NOTE: 'd',
+            STRAFE_UP_NOTE: 'w',
+            STRAFE_DOWN_NOTE: 's',
 
-            # MOUSE_LEFT_NOTE: MOUSE_LEFT_KEY,
-            # MOUSE_RIGHT_NOTE: MOUSE_RIGHT_KEY,
-            # MOUSE_UP_NOTE: MOUSE_UP_KEY,
-            # MOUSE_DOWN_NOTE: MOUSE_DOWN_KEY,
-            # MOUSE_CLICK_NOTE: MOUSE_CLICK_KEY,
+            MOUSE_LEFT_NOTE: MOUSE_LEFT_KEY,
+            MOUSE_RIGHT_NOTE: MOUSE_RIGHT_KEY,
+            MOUSE_UP_NOTE: MOUSE_UP_KEY,
+            MOUSE_DOWN_NOTE: MOUSE_DOWN_KEY,
+            MOUSE_CLICK_NOTE: MOUSE_CLICK_KEY,
 
-            ONE_NOTE: 'a',
+            ONE_NOTE: '1',
             TWO_NOTE: '2',
             THREE_NOTE: '3',
             FOUR_NOTE: '4',
@@ -144,26 +144,28 @@ class MinecraftMap(Keymap):
         }
         if note in config_keys:
             return config_keys[note]
+        if note in COMBO_KEYS_TO_NOTES:
+            return COMBO_KEYS_TO_NOTES[note]
         return None
 
 
 class MarioMap(Keymap):
     def __init__(self):
         # When playing Mario, we want to hold down the movement keys instead of quickly pressing them.
-        held_keys = [' ', 'left', 'down', 'up', 'right', MinecraftMap.key_for_note(ATTACK_NOTE)]
+        held_keys = [' ', 'w', 'a', 's', 'd', MinecraftMap.key_for_note(ATTACK_NOTE)]
         super().__init__([], [], held_keys=held_keys)
 
     @classmethod
     def key_for_note(cls, note: str) -> Optional[Union[str, List]]:
         config_keys = {
-            ESC_NOTE: 'esc',
+            ESC_NOTE: ' ',
 
-            STRAFE_LEFT_NOTE: 'left',
-            STRAFE_RIGHT_NOTE: 'right',
-            STRAFE_UP_NOTE: 'up',
-            STRAFE_DOWN_NOTE: 'down',
+            STRAFE_LEFT_NOTE: 'a',
+            STRAFE_RIGHT_NOTE: 'd',
+            STRAFE_UP_NOTE: 'w',
+            STRAFE_DOWN_NOTE: 's',
 
-            ONE_NOTE: 'a',
+            ONE_NOTE: '1',
             TWO_NOTE: '2',
             THREE_NOTE: '3',
             FOUR_NOTE: '4',

@@ -25,6 +25,7 @@ ESC_NOTE = 'D3'
 COMBO_KEYS_TO_NOTES = {
     'F3': ['up', 'left'],
     'F#4': ['up', 'right'],
+    'C#3': ['o', 'k', ' ', 'b', 'o', 'o', 'm', 'e', 'r', '.'],
 }
 
 MIN_VOLUME = 100000  # Any audio below this value is considered silence. Chosen through experimentation
@@ -57,4 +58,3 @@ CRAFT_NOTE = 'A3'
 ATTACK_NOTE = 'A#3'
 PICK_BLOCK_NOTE = 'B3'
 PLACE_BLOCK_NOTE = 'C3'
-

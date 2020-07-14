@@ -1,14 +1,15 @@
-import foohid
+import pyautogui
 from config import MOUSE_SPEED
+from directkeys import MouseMoveTo
 
-from Quartz.CoreGraphics import CGEventCreateMouseEvent
-from Quartz.CoreGraphics import CGEventPost
-from Quartz.CoreGraphics import kCGEventMouseMoved
-from Quartz.CoreGraphics import kCGEventLeftMouseDown
-from Quartz.CoreGraphics import kCGEventLeftMouseDown
-from Quartz.CoreGraphics import kCGEventLeftMouseUp
-from Quartz.CoreGraphics import kCGMouseButtonLeft
-from Quartz.CoreGraphics import kCGHIDEventTap
+#from Quartz.CoreGraphics import CGEventCreateMouseEvent
+#from Quartz.CoreGraphics import CGEventPost
+#from Quartz.CoreGraphics import kCGEventMouseMoved
+#from Quartz.CoreGraphics import kCGEventLeftMouseDown
+#from Quartz.CoreGraphics import kCGEventLeftMouseDown
+#from Quartz.CoreGraphics import kCGEventLeftMouseUp
+#from Quartz.CoreGraphics import kCGMouseButtonLeft
+#from Quartz.CoreGraphics import kCGHIDEventTap
 
 
 MOUSE_UP_KEY = 'mouse_up_key'
@@ -24,31 +25,23 @@ class VirtualMouse:
 
     @staticmethod
     def left_click():
-        def mouse_event(type, posx, posy):
-            event = CGEventCreateMouseEvent(None, type, (posx, posy), kCGMouseButtonLeft)
-            CGEventPost(kCGHIDEventTap, event)
-
-        def mouse_click(posx, posy):
-            mouse_event(kCGEventLeftMouseDown, posx, posy)
-            mouse_event(kCGEventLeftMouseUp, posx, posy)
-
-        mouse_click(500, 500)
+        pyautogui.click()
 
     @staticmethod
     def _move_down():
-        foohid.move_mouse(0, 1 * MOUSE_SPEED)
+        MouseMoveTo(0, 1 * MOUSE_SPEED)
 
     @staticmethod
     def _move_up():
-        foohid.move_mouse(0, -1 * MOUSE_SPEED)
+        MouseMoveTo(0, -1 * MOUSE_SPEED)
 
     @staticmethod
     def _move_left():
-        foohid.move_mouse(-1 * MOUSE_SPEED, 0)
+        MouseMoveTo(-1 * MOUSE_SPEED, 0)
 
     @staticmethod
     def _move_right():
-        foohid.move_mouse(1 * MOUSE_SPEED, 0)
+        MouseMoveTo(1 * MOUSE_SPEED, 0)
 
     @classmethod
     def hold_down(cls):
