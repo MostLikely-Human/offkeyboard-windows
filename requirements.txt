@@ -5,3 +5,4 @@ typing
 pyaudio
 keyboard
 matplotlib
+pyautogui
